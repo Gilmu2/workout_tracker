@@ -35,18 +35,36 @@ npm run preview   # serve the production build locally
 
 ## Deploy to Vercel (free)
 
-1. **Create a GitHub repo** and push this folder to it:
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git branch -M main
-   # Create the empty repo on github.com first, then:
-   git remote add origin https://github.com/<YOUR_USERNAME>/workout-tracker.git
-   git push -u origin main
-   ```
-2. Go to <https://vercel.com> → "Add New… → Project" → import the repo. Vercel auto-detects Vite.
-3. Click **Deploy**. You'll get a URL like `https://workout-tracker-xxx.vercel.app`.
+Your repo: [github.com/Gilmu2/workout_tracker](https://github.com/Gilmu2/workout_tracker.git)
+
+### 1. Push code to GitHub
+
+If this folder is not a git repo yet:
+
+```bash
+cd "/path/to/Workout Tracker"
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/Gilmu2/workout_tracker.git
+git push -u origin main
+```
+
+If `git push` returns **403 Permission denied**, your machine is logged into a different GitHub account than **Gilmu2**. Fix one of these:
+
+- **GitHub Desktop / `gh auth login`**: sign in as **Gilmu2**, then push again.
+- **HTTPS**: use a [Personal Access Token](https://github.com/settings/tokens) for **Gilmu2** when Git asks for a password (not your GitHub password).
+- **SSH**: add an SSH key to the **Gilmu2** account, then  
+  `git remote set-url origin git@github.com:Gilmu2/workout_tracker.git`  
+  and `git push -u origin main`.
+
+### 2. Connect Vercel
+
+1. Open [vercel.com](https://vercel.com) and sign in (GitHub is fine).
+2. **Add New… → Project** → **Import** `Gilmu2/workout_tracker`.
+3. Leave defaults: **Framework Preset** = Vite, **Build Command** = `npm run build`, **Output Directory** = `dist`.
+4. Click **Deploy**. When it finishes, open the `*.vercel.app` URL on your phone and use Chrome → **Install app** if you want it on your home screen.
 
 ## Install on your Pixel
 
