@@ -1,136 +1,119 @@
 # Workout Tracker
 
-A free, installable Progressive Web App for logging your 3-day split. Mobile-first, offline-capable, no backend, no sign-up. All data stays in your phone's browser (IndexedDB).
+A free, installable Progressive Web App (PWA) for logging strength-training sessions. It is mobile-first, works offline after the first load, and does not require a backend or user accounts. Workout data is stored locally in the browser (IndexedDB).
 
-## Features (v1)
+## Features
 
-- **3-day split, pre-seeded**: Sunday Chest+Biceps+Abs · Tuesday Back+Shoulders+Forearms+Abs · Thursday Legs+Triceps+Abs.
-- **Auto-detects today's workout** based on the day of the week (overridable).
-- **Alternate / swap exercises** in one tap (e.g., Dumbbell Chest Press ↔ Dips) when the gym is full.
-- **Exercise position tracking**: each exercise gets an auto-numbered position (1st, 2nd, 3rd…). The Progress chart can filter to "only when done 1st" so you compare apples-to-apples.
-- **Weight × reps logger** with big +/- steppers (gym-friendly).
-- **Progress charts**: top-set weight over time + Epley estimated 1RM, plus current PR display.
-- **History** of every session and every set.
-- **Library editor** to add new exercises and their alternates.
-- **JSON backup / restore** because your data is local-only — back it up regularly.
-- **Installable PWA**: add to your phone's home screen, works offline.
+- **Pre-seeded 3-day split** (example): Sunday chest / biceps / abs · Tuesday back / shoulders / forearms / abs · Thursday legs / triceps / abs. Day type can be overridden when starting a session.
+- **Weekday hint** for which split matches the calendar day (optional).
+- **Exercise alternates** with quick swap during a session (e.g. machine substitutions when equipment is busy).
+- **Order / position** per exercise in a session; progress charts can filter to “only when done first” for fair comparisons.
+- **Weight and reps** logging with large stepper controls; **time-based holds** (e.g. plank) log duration instead of weight.
+- **Progress**: charts, estimated 1RM (Epley) for load-based lifts, personal bests.
+- **History** and per-session detail views.
+- **Exercise library** with editable alternates and log type (weight + reps vs. time).
+- **JSON export / import** in Settings for backups (recommended because data is device-local).
+- **PWA**: add to home screen; precached assets for offline use.
+
+## Requirements
+
+- Node.js 18 or newer
 
 ## Run locally
-
-Requires Node 18+.
 
 ```bash
 npm install
 npm run dev
 ```
 
-Then open http://localhost:5173 in your browser.
+Open the URL printed in the terminal (typically `http://localhost:5173`).
 
-## Build
+## Production build
 
 ```bash
 npm run build
-npm run preview   # serve the production build locally
+npm run preview   # optional: serve dist/ locally
 ```
 
-## Deploy to Vercel (free)
+## Deploy (example: GitHub + Vercel)
 
-Your repo: [github.com/Gilmu2/workout_tracker](https://github.com/Gilmu2/workout_tracker.git)
+### 1. Host the source on GitHub
 
-### 1. Push code to GitHub
-
-If this folder is not a git repo yet:
+Create an empty repository, then from this project directory:
 
 ```bash
-cd "/path/to/Workout Tracker"
 git init
 git add .
 git commit -m "Initial commit"
 git branch -M main
-git remote add origin https://github.com/Gilmu2/workout_tracker.git
+git remote add origin https://github.com/<ORG_OR_USER>/<REPO>.git
 git push -u origin main
 ```
 
-If `git push` returns **403 Permission denied**, your machine is logged into a different GitHub account than **Gilmu2**. Fix one of these:
+Use a remote URL you control. If `git push` is rejected, confirm Git credentials and repository permissions for that account.
 
-- **GitHub Desktop / `gh auth login`**: sign in as **Gilmu2**, then push again.
-- **HTTPS**: use a [Personal Access Token](https://github.com/settings/tokens) for **Gilmu2** when Git asks for a password (not your GitHub password).
-- **SSH**: add an SSH key to the **Gilmu2** account, then  
-  `git remote set-url origin git@github.com:Gilmu2/workout_tracker.git`  
-  and `git push -u origin main`.
+### 2. Deploy on Vercel
 
-### 2. Connect Vercel
+1. Sign in at [vercel.com](https://vercel.com) (e.g. with GitHub).
+2. **Add New → Project** and import the repository.
+3. Defaults for Vite are usually correct: **Build command** `npm run build`, **Output directory** `dist`.
+4. Deploy and use the generated production URL.
 
-1. Open [vercel.com](https://vercel.com) and sign in (GitHub is fine).
-2. **Add New… → Project** → **Import** `Gilmu2/workout_tracker`.
-3. Leave defaults: **Framework Preset** = Vite, **Build Command** = `npm run build`, **Output Directory** = `dist`.
-4. Click **Deploy**. When it finishes, open the `*.vercel.app` URL on your phone and use Chrome → **Install app** if you want it on your home screen.
+### 3. Install as an app (PWA)
 
-## Install on your Pixel
+On Android Chrome (and most Chromium-based mobile browsers): open the deployed site → browser menu → **Install app** or **Add to Home screen**. iOS Safari: **Share → Add to Home Screen**.
 
-1. Open the Vercel URL in **Chrome** on your Pixel.
-2. Tap the three-dot menu → **"Install app"** (or "Add to Home screen").
-3. Launch from your home screen — it runs full-screen, like a native app.
+## Data and privacy
 
-## Data & privacy
-
-- Data is stored in IndexedDB on the device that opened the page. **No backend, no sync.**
-- Clearing browser site data, uninstalling the app, or wiping the phone deletes the data.
-- **Use Settings → Export JSON backup** regularly. Save the file to Google Drive / email it to yourself. Restore on Settings → Choose backup file.
+- Data lives in **IndexedDB** on the device that opened the app. There is **no server-side sync** in this version.
+- Clearing site data, removing the installed PWA, or resetting the device can delete local data.
+- Use **Settings → Export JSON backup** periodically and store the file somewhere safe. **Settings → Choose backup file** restores a prior export.
 
 ## Tech stack
 
 | Layer | Choice |
-|---|---|
-| Framework | Vite + React + TypeScript |
+| --- | --- |
+| Framework | Vite, React 18, TypeScript |
 | Styling | Tailwind CSS |
-| Local DB | Dexie.js (IndexedDB) |
+| Local storage | Dexie.js (IndexedDB) |
 | Charts | Recharts |
-| PWA | vite-plugin-pwa (injectManifest + workbox-precaching) |
-| Routing | react-router-dom (HashRouter — no server rewrites needed) |
-| Hosting | Vercel free tier |
+| PWA | vite-plugin-pwa (injectManifest, Workbox precaching) |
+| Routing | react-router-dom (HashRouter; no SPA rewrite rules required on static hosts) |
+| Example hosting | Vercel (free tier works for static + serverless is unused here) |
 
 ## Project layout
 
 ```
 src/
-  main.tsx              entry, mounts router and seeds DB
-  App.tsx               layout + bottom tab nav
-  db/dexie.ts           schema + initDb / clearAllData helpers
-  db/seed.ts            your routine, pre-seeded into the library
-  lib/dayType.ts        weekday → day type, formatters
-  pages/
-    Home.tsx            today's workout + start session + recent
-    Session.tsx         active session: add/swap/reorder, log sets
-    History.tsx         all past sessions
-    SessionDetail.tsx   read-only view of one session
-    Progress.tsx        per-exercise charts + PR + position filter
-    Library.tsx         exercise CRUD + alternates editor
-    Settings.tsx        backup / restore / reset
-  components/
-    SetLogger.tsx       weight + reps stepper input
-    ExercisePicker.tsx  searchable picker, surfaces alternates
-  sw.ts                 custom service worker (precache only)
+  main.tsx              app entry, DB seed on first run
+  App.tsx               shell + bottom navigation
+  db/dexie.ts           schema, migrations, helpers
+  db/seed.ts            default exercise library
+  lib/                  day-type helpers, duration formatting, log-type helpers
+  pages/                Home, Session, History, SessionDetail, Progress, Library, Settings
+  components/           Set logger, exercise picker
+  sw.ts                 service worker (precache)
 public/
   favicon.svg
-  icons/icon-192.png    auto-generated by scripts/generate-icons.mjs
-  icons/icon-512.png
+  icons/                PWA icons (see scripts/)
 scripts/
-  generate-icons.mjs    regenerate icons (no deps)
+  generate-icons.mjs    generates PNG icons without extra dependencies
 ```
 
-## Re-generating icons
+## Icons
+
+Regenerate `public/icons/icon-192.png` and `icon-512.png`:
 
 ```bash
 node scripts/generate-icons.mjs
 ```
 
-## Roadmap (next)
+## Roadmap
 
 - Rest timer between sets
 - Plate calculator
 - Body-weight tracking
-- RPE / effort logging
-- Exercise notes (cue, form reminders)
-- Multi-device sync (optional Supabase backend)
+- RPE / effort per set
+- Per-exercise notes
+- Optional cloud sync (e.g. Supabase)
 - CSV export
