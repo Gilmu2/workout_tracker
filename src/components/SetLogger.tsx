@@ -55,13 +55,14 @@ function WeightSetLogger({
   }
 
   return (
-    <div className="bg-bg border border-border rounded-xl p-3 space-y-3">
-      <div className="grid grid-cols-2 gap-3">
-        <div>
+    <div className="bg-bg border border-border rounded-xl p-3 space-y-3 min-w-0 max-w-full">
+      {/* Stacked on narrow screens so [−][input][+] never shares half-width with another column */}
+      <div className="flex flex-col gap-4 min-w-0">
+        <div className="min-w-0 w-full">
           <label className="block text-xs uppercase tracking-wide text-slate-400 mb-1">
             Weight (kg)
           </label>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1 min-w-0 w-full">
             <button
               type="button"
               className="stepper-btn"
@@ -77,7 +78,7 @@ function WeightSetLogger({
               value={Number.isFinite(weight) ? weight : 0}
               onChange={(e) => setWeight(parseFloat(e.target.value) || 0)}
               onFocus={(e) => e.currentTarget.select()}
-              className="input flex-1 text-center text-lg font-semibold"
+              className="input flex-1 min-w-0 text-center text-base sm:text-lg font-semibold px-2 py-2"
             />
             <button
               type="button"
@@ -89,11 +90,11 @@ function WeightSetLogger({
             </button>
           </div>
         </div>
-        <div>
+        <div className="min-w-0 w-full">
           <label className="block text-xs uppercase tracking-wide text-slate-400 mb-1">
             Reps
           </label>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1 min-w-0 w-full">
             <button
               type="button"
               className="stepper-btn"
@@ -108,7 +109,7 @@ function WeightSetLogger({
               value={Number.isFinite(reps) ? reps : 0}
               onChange={(e) => setReps(parseInt(e.target.value, 10) || 0)}
               onFocus={(e) => e.currentTarget.select()}
-              className="input flex-1 text-center text-lg font-semibold"
+              className="input flex-1 min-w-0 text-center text-base sm:text-lg font-semibold px-2 py-2"
             />
             <button
               type="button"
@@ -143,21 +144,23 @@ function TimeSetLogger({
   }
 
   return (
-    <div className="bg-bg border border-border rounded-xl p-3 space-y-3">
-      <div>
+    <div className="bg-bg border border-border rounded-xl p-3 space-y-3 min-w-0 max-w-full">
+      <div className="min-w-0">
         <label className="block text-xs uppercase tracking-wide text-slate-400 mb-1">
           Hold time
         </label>
         <div className="text-center text-lg font-semibold text-accent mb-2 tabular-nums">
           {formatDurationSeconds(seconds)}
         </div>
-        <div className="flex items-center gap-1.5">
-          <button type="button" className="stepper-btn" onClick={() => bump(-30)} aria-label="minus 30 seconds">
-            −30
-          </button>
-          <button type="button" className="stepper-btn" onClick={() => bump(-5)} aria-label="minus 5 seconds">
-            −5
-          </button>
+        <div className="flex flex-col gap-2 min-w-0">
+          <div className="flex justify-center gap-2 flex-wrap">
+            <button type="button" className="stepper-btn px-1 w-auto min-w-[2.5rem]" onClick={() => bump(-30)} aria-label="minus 30 seconds">
+              −30
+            </button>
+            <button type="button" className="stepper-btn px-1 w-auto min-w-[2.5rem]" onClick={() => bump(-5)} aria-label="minus 5 seconds">
+              −5
+            </button>
+          </div>
           <input
             type="number"
             inputMode="numeric"
@@ -165,14 +168,16 @@ function TimeSetLogger({
             value={seconds}
             onChange={(e) => setSeconds(Math.max(1, parseInt(e.target.value, 10) || 1))}
             onFocus={(e) => e.currentTarget.select()}
-            className="input flex-1 text-center text-lg font-semibold"
+            className="input w-full min-w-0 text-center text-base sm:text-lg font-semibold px-2 py-2"
           />
-          <button type="button" className="stepper-btn" onClick={() => bump(5)} aria-label="plus 5 seconds">
-            +5
-          </button>
-          <button type="button" className="stepper-btn" onClick={() => bump(30)} aria-label="plus 30 seconds">
-            +30
-          </button>
+          <div className="flex justify-center gap-2 flex-wrap">
+            <button type="button" className="stepper-btn px-1 w-auto min-w-[2.5rem]" onClick={() => bump(5)} aria-label="plus 5 seconds">
+              +5
+            </button>
+            <button type="button" className="stepper-btn px-1 w-auto min-w-[2.5rem]" onClick={() => bump(30)} aria-label="plus 30 seconds">
+              +30
+            </button>
+          </div>
         </div>
         <p className="text-xs text-slate-500 mt-2 text-center">Seconds — e.g. 90 for 1:30</p>
       </div>

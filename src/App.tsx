@@ -17,8 +17,8 @@ const tabs = [
 
 export default function App() {
   return (
-    <div className="min-h-full flex flex-col pb-20">
-      <main className="flex-1 max-w-2xl w-full mx-auto px-4 pt-4">
+    <div className="min-h-full flex flex-col pb-20 min-w-0 overflow-x-hidden">
+      <main className="flex-1 max-w-2xl w-full min-w-0 mx-auto px-3 sm:px-4 pt-4">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/session/:id" element={<Session />} />
